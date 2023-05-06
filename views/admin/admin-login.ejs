@@ -1,0 +1,40 @@
+  <!-- Font Icon -->
+  <link rel="stylesheet" href="/login/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+  <!-- Main css -->
+  <link rel="stylesheet" href="/login/css/style.css">
+
+<section class="sign-in " id="myElement" style="margin-top: 50px;">
+    <div class="container">
+        <div class="signin-content">
+            <div class="signin-image">
+                <figure><img src="/img/signin-image.jpg" alt="sing up image"></figure>
+                <!-- <a href="/signup" class="signup-image-link">Create an account</a> -->
+            </div>
+
+            <div class="signin-form">
+                <h2 class="form-title">Admin Sign in</h2>
+                <form action="/admin/adminLogin" method="post" class="register-form" id="login-form">
+                    <div class="form-group">
+                        <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                        <input type="text" name="email" id="your_name" placeholder="Your email" />
+                    </div>
+                    <div class="form-group">
+                        <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+                        <input type="password" name="password" id="your_pass" placeholder="Password" />
+                    </div>
+                    <div class="form-group form-button">
+                        <input type="submit" name="signin" id="signin" class="form-submit" value="Log in" />
+                    </div>
+                    <!-- <div class="form-group">
+                        <a href="/forgotpassword"><label for="remember-me" class="label-agree-term"><span><span></span></span>forgot password</label></a>
+                    </div> -->
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+  <!-- JS
+  <script src="/login/vendor/jquery/jquery.min.js"></script>
+  <script src="/login/main.js"></script> -->
