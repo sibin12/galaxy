@@ -85,20 +85,36 @@
 
 
     // Product Quantity
-    // $('.quantity button').on('click', function () {
-    //     var button = $(this);
-    //     var oldValue = button.parent().parent().find('input').val();
-    //     if (button.hasClass('btn-plus')) {
-    //         var newVal = parseFloat(oldValue) + 1;
-    //     } else {
-    //         if (oldValue > 0) {
-    //             var newVal = parseFloat(oldValue) - 1;
-    //         } else {
-    //             newVal = 0;
-    //         }
-    //     }
-    //     button.parent().parent().find('input').val(newVal);
-    // });
+    $('.increment-button').on('click', function () {
+        var targetID = $(this).data("target");
+
+      // Find the closest quantity display with the matching ID
+      var quantityDisplay = $("#" + targetID).closest(".value");
+
+      // Get the current quantity value and decrement it
+      var currentValue = parseInt(quantityDisplay.text());
+      var newValue = currentValue + 1;
+
+      // Update the quantity display with the new value
+      quantityDisplay.text(newValue);
+        
+        
+    });
+    $(".decrement-button").on( 'click',function() {
+        // Get the target ID from the data-target attribute
+        var targetID = $(this).data("target");
+  
+        // Find the closest quantity display with the matching ID
+        var quantityDisplay = $("#" + targetID).closest(".value");
+          
+        // Get the current quantity value and decrement it
+        var currentValue = parseInt(quantityDisplay.text());
+        var newValue;
+        currentValue > 1 ? newValue = currentValue - 1: newValue = currentValue;
+  
+        // Update the quantity display with the new value
+        quantityDisplay.text(newValue);
+      });
     
 })(jQuery);
 

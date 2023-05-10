@@ -13,22 +13,25 @@ const Admin=require('../models/adminSchema')
 const bcrypt=require('bcrypt')
 const OTP = require('../models/otpSchema')
 const Cart= require('../models/cartSchema')
+const Banner = require('../models/bannerSchema')
 
 
 
 exports.userIndex = async (req,res)=>{
     let products = await Product.find({})
+    let banner = await Banner.find({})
     // console.log(products)
-    res.render('user/index',{products,user:req.session.user})
+    res.render('user/index',{products,user:req.session.user,banner})
 }
 exports.homePage = async (req,res)=>{
     console.log(res.locals.count+"req.sessionssssssssssssssssssssssssss")
     // console.log(req.session);
+    let banner = await Banner.find({})
     let products = await Product.find({})
  let user=req.session.user
  let count = req.session.user.count
 
- res.render('user/index',{count,user,products})
+ res.render('user/index',{count,user,products,banner})
 }
 exports.getSignUp = (req,res)=>{
     res.render('user/signup',{other:true})
@@ -147,6 +150,9 @@ exports.postSignIn = async (req, res) => {
                 }
                 // console.log(req.session.user)
             })
+        }else{
+            req.session.loginErr = "invalid email or password"
+            res.redirect('/signin')
         }
         
 

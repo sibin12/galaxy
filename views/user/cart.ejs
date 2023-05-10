@@ -1,13 +1,43 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
 
+<style>
+.cart-empty-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
 
+.cart-empty-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.cart-empty-text {
+  text-align: center;
+}
+
+.cart-empty-text h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.cart-empty-text p {
+  font-size: 1.2rem;
+  color: #999;
+}
+
+
+</style>
 
 
 <div class="container-fluid">
     <div class="row px-xl-5">
         <div class="col-lg-8 table-responsive mb-5">
             <table class="table table-light table-borderless table-hover text-center mb-0">
+                <% if (locals.cartItems.length>0) {%>
                 <thead class="thead-dark">
                     <tr>
                         <th></th>
@@ -19,6 +49,7 @@
                     </tr>
                 </thead>
                 <tbody class="align-middle">
+                
                     <% locals.cartItems.forEach(item=>{ %>
                         <tr>
                             <td class="align-middle"><img src="/uploads/<%=item.productInfo.images[0] %>" alt=""
@@ -32,18 +63,18 @@
                             <td class="align-middle">
                                 <div class="input-group quantity mx-auto" style="width: 100px;">
                                     <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary " id="proId" onclick="changeQuantity('<%=item._id%>','<%=item.productInfo._id%>',-1)">
+                                        <button class="btn btn-sm btn-primary decrement-button " id="proId" data-target="<%=item.productInfo._id%>" onclick="changeQuantity('<%=item._id%>','<%=item.productInfo._id%>',-1)">
                                             <i class="fa fa-minus"></i>
                                         </button>
                                     </div>
                                     
                                     <!-- <input type="text"
                                         class="form-control form-control-sm bg-secondary border-0 text-center"> -->
-                                         <b  class="form-control form-control-sm bg-secondary border-0 text-center" id="<%=item.productInfo._id%>">    
+                                         <b  class="form-control form-control-sm bg-secondary border-0 text-center value" id="<%=item.productInfo._id%>">    
                                          <%=item.quantity %>
                                          </b>
                                     <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-plus" id="proId" onclick="changeQuantity('<%=item._id%>','<%=item.productInfo._id%>',1)">
+                                        <button class="btn btn-sm btn-primary increment-button btn-plus <%=item.productInfo._id%>" id="proId" data-target="<%=item.productInfo._id%>" onclick="changeQuantity('<%=item._id%>','<%=item.productInfo._id%>',1)">
                                             <i class="fa fa-plus"></i>
                                         </button>
                                     </div>
@@ -59,28 +90,42 @@
                                         class="fa fa-times"></i></button></td>
                         </tr>
                         <% }) %>
+                        <% }else{ %>
+                            <div class="cart-empty-container ">
+                                <div class="cart-empty-icon">
+                                  <i class="fas fa-shopping-cart"></i>
+                                </div>
+                                <div class="cart-empty-text">
+                                  <h2>Your cart is empty</h2>
+                                  <p>Start shopping now and add items to your cart</p>
+                                </div>
+                              </div>
+                              
+                            <% } %>
 
                 </tbody>
             </table>
         </div>
         <div class="col-lg-4">
-            <form class="mb-30" action="">
+            <!-- <form class="mb-30" action="">
                 <div class="input-group">
                     <input type="text" class="form-control border-0 p-4" placeholder="Coupon Code">
                     <div class="input-group-append">
                         <button class="btn btn-primary">Apply Coupon</button>
                     </div>
                 </div>
-            </form>
+            </form> -->
             <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Cart
                     Summary</span></h5>
             <div class="bg-light p-30 mb-5">
                 <div class="border-bottom pb-2">
                     <div class="d-flex justify-content-between mb-3">
                         <h6>Subtotal</h6>
-                        <h6>
-                            <%=total[0].total %>
-                        </h6>
+                        <% if(locals.total.length>0){ %>
+                            <h6 id="total"> <%=total[0].total %> </h6>
+                            <% }else{ %>
+                                <h6 id="total">0</h6>
+                                <% } %>
                     </div>
                     <div class="d-flex justify-content-between">
                         <h6 class="font-weight-medium">Shipping</h6>
@@ -90,17 +135,23 @@
                 <div class="pt-2">
                     <div class="d-flex justify-content-between mt-2">
                         <h5>Total</h5>
-                        <% if(locals.total){ %>
+                        <% if(locals.total.length>0){ %>
                         <h5 id="total"> <%=total[0].total %> </h5>
                         <% }else{ %>
                             <h5 id="total">0</h5>
                             <% } %>
-
                     </div>
+                    <% if (locals.cartItems.length>0) {%>
                     <a href="/checkout">
                         <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To
                             Checkout</button>
                     </a>
+                    <% }else{ %>
+                        <a href="/index">
+                            <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Add To Cart</button>
+                        </a>
+
+                        <% } %>
                 </div>
             </div>
         </div>
@@ -108,7 +159,10 @@
 </div>
 
 
-
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Include SweetAlert2 library -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.js"></script>
 <script>
  
     function changeQuantity(cartId ,proId,count,userId){
@@ -172,7 +226,7 @@ console.log(response.total[0].total,"response total")
                         title:'Product Removed',
                         text:"product removed from the cart",
                         icon: 'success',
-                        showCancelButton :true,
+                       
                         confirmButtonText:"confirm",
                     }).then((result)=>{
                         if(result.isConfirmed){
@@ -181,7 +235,7 @@ console.log(response.total[0].total,"response total")
                     });
                 } else {
                     console.log("only add or remove 1")
-                    document.getElementById(proId).innerHTML = quantity + count;
+                    // document.getElementById(proId).innerHTML = quantity + count;
                 }
             }
         })
@@ -229,7 +283,3 @@ console.log(response.total[0].total,"response total")
 
 
 
-</script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- Include SweetAlert2 library -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.js"></script>

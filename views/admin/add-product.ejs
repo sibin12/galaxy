@@ -36,7 +36,7 @@
                     <input type="text" class="form-control mt-2" id="name" name="name">
                     
                     <label for="category" class="form-label mt-2">Category:</label>
-                    <select class="form-select" id="category" name="category">
+                    <select class="form-select custom-select" id="category" name="category">
                         <option value="">--Select Category--</option>
                         <% categories.forEach(category=>{%>
                         <option value="<%= category.categoryName %>"><%= category.categoryName %></option>
@@ -45,7 +45,7 @@
                     <span id="categoryError" style="color:red;"></span>
                     
                     <label for="company" class="form-label mt-2">Company:</label>
-                    <select class="form-select" id="company" name="company">
+                    <select class="form-select custom-select" id="company" name="company">
                         <option value="">--Select Company--</option>
                         <option value="Apple">Apple</option>
                         <option value="Samsung">Samsung</option>

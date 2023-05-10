@@ -1,3 +1,11 @@
+<head>
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"> -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+
+</head>
 
 
 <style>
@@ -51,7 +59,7 @@
 <div class="container-fluid pb-5">
         <div class="row px-xl-6">
             
-            <div class="col-lg-1  col-sm-2 d-xs-none ">
+            <div class="col-lg-1  col-sm-2  d-xs-sm-none " >
                 <div class="small-images pl-3" style="height: 90px;width: 111px;">
                     <a href="/uploads/<%=singleProduct.images[0]%>" class="MagicZoom small-image"
                         data-options="zoomWidth:400px; zoomHeight:400px">
@@ -201,20 +209,20 @@
                         </form>
                     </div> -->
                     <div class="d-flex align-items-center mb-4 pt-2">
-                        <div class="input-group quantity mr-3" style="width: 130px;">
-                            <div class="input-group-btn">
+                        <!-- <div class="input-group quantity mr-3" style="width: 130px;"> -->
+                            <!-- <div class="input-group-btn">
                                 <button class="btn btn-primary btn-minus">
                                     <i class="fa fa-minus"></i>
                                 </button>
-                            </div>
-                            <input type="text" class="form-control bg-secondary border-0 text-center" value="1">
+                            </div> -->
+                            <!-- <input type="text" class="form-control bg-secondary border-0 text-center" value="1">
                             <div class="input-group-btn">
                                 <button class="btn btn-primary btn-plus">
                                     <i class="fa fa-plus"></i>
                                 </button>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To
+                            </div> -->
+                        <!-- </div> -->
+                        <button class="btn btn-primary px-3" onclick="addToCart('<%=singleProduct._id %>')"><i class="fa fa-shopping-cart mr-1"></i> Add To
                             Cart</button>
                     </div>
                     <div class="d-flex pt-2">
@@ -501,26 +509,28 @@
     
     
         function addToCart(proId) {
-            $.ajax({
-                url: `/addtoCart/${proId}`,
-                method: 'get',
-                success: (response) => {
-                    // alert(response)
-                    let count = $('#cartCount').html()
-                    count = parseInt(count) + 1
-                    $('#cartCount').html(count)
-    
-                    console.log(typeof (count))
-                    console.log(count, 'countttt')
-    
-                    toastr.success('Product added successfully to the cart.', 'Success', {
-                        timeOut: 3000, // time in milliseconds
-                        progressBar: true, // show a progress bar
-                        closeButton: true, // show a close button
-                    });
-                }
-            })
-        }
+		$.ajax({
+			url: `/addToCart/${proId}`,
+			method: 'get',
+			success: (response) => {
+				// alert(response)
+				let count = $('#cartCount').html()
+				count = parseInt(count) + 1
+				$('#cartCount').html(count)
+				$('#cartCount1').html(count)
+                
+             
+				console.log(typeof (count))
+				console.log(count, 'countttt')
+
+				toastr.success('Product added successfully to the cart.', 'Success', {
+					timeOut: 3000, // time in ms
+					progressBar: true, // show a progress bar
+					closeButton: true, // show a close button
+				});
+			}
+		})
+	}
     
     
         document.addEventListener('DOMContentLoaded', function () {

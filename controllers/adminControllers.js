@@ -1,9 +1,11 @@
 const Admin = require('../models/adminSchema')
 const User = require('../models/userSchema')
 const Banner = require('../models/bannerSchema')
+const Order = require('../models/orderSchema')
 const bcrypt = require('bcrypt')
 const multer = require('multer')
 const path = require('path')
+const { orderDetails } = require('./addressController')
 
 const bannerStorage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -25,7 +27,8 @@ const uploadBanner = multer({ storage: bannerStorage })
 exports.adminLogin = async (req,res)=>{
  try{
     console.log('hello login')
-      res.render('admin/admin-login',{other:true})
+     
+      res.render('admin/admin-login',{other:true })
  }catch(err){
     console.log(err);
  }
@@ -50,13 +53,18 @@ exports.postLogin = async (req,res)=>{
                     console.log('admin existss')
                     req.session.admin = userName
                     req.session.admin.loggedIn = true
+                    req.session.admin.loginError = false
                     res.render('admin/dashboard',{admin:true})
                 }else{
+                    req.session.admin.loginError = "invalid password or email"
+
                     console.log("password error");
                     res.redirect('/admin')
                 }
             })
         }else{
+            req.session.admin.loginError = "invalid password or email"
+
             console.log("email error");
             res.redirect('/admin')
         }
@@ -157,6 +165,32 @@ exports.deleteBanner = async (req,res)=>{
     }
 }
 
+exports.viewOrders = async (req,res)=>{
+    try {
+
+      let   orders = await Order.aggregate([{
+             $lookup:{
+                from:"products",
+                localField:"products.item",
+                foreignField:"_id",
+                as:"productInfo"
+            }
+        }])
+
+        console.log(orders,"+++++++++++++++++")
+        console.log(orders[0].products);
+        res.render('admin/view-orders',{admin:true,orders})
+
+        
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+exports.deliveryStatus = async (req,res)=>{
+    console.log(req.body);
+
+}
 
 
 

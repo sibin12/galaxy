@@ -34,6 +34,9 @@ router.get('/add-banner',adminController.addBanner)
 router.post('/add-banner',adminController.postAddBanner)
 router.get('/delete-banner/:id',adminController.deleteBanner)
 
+router.get('/view-orders',adminController.viewOrders)
+router.post('/delivery-status/',adminController.deliveryStatus)
+
 
 router.get('/adminlogout',adminController.adminLogout)
 

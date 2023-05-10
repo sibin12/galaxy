@@ -1,0 +1,134 @@
+
+    <style>
+      body {
+        background-color: #f5f5f5;
+      }
+
+      h2 {
+        margin-top: 30px;
+        margin-bottom: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+      }
+
+      table thead {
+        background-color: #f5f5f5;
+      }
+
+      table th,
+      table td {
+        padding: 10px;
+        text-align: center;
+        vertical-align: middle;
+        border: 1px solid #ddd;
+      }
+
+      table th {
+        font-size: 18px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .product-image {
+        max-width: 100px;
+        height: auto;
+        margin-right: 20px;
+      }
+
+      .product-name {
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 5px;
+      }
+
+      .product-price,
+      .product-quantity,
+      .product-total {
+        font-size: 16px;
+        font-weight: 400;
+      }
+
+      .order-status {
+        font-size: 18px;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+
+      .order-actions {
+        margin-top: 30px;
+      }
+
+      .order-cancel {
+        font-size: 16px;
+        font-weight: 700;
+        text-transform: uppercase;
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .order-cancel:hover {
+        background-color: #c82333;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container ">
+      <h2>Order Details</h2>
+
+      <div class="row">
+        <div class="col-md-12 ">
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Product Name</th>
+                <th>Company</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+                <% products.forEach((product,index)=>{ %>
+              <tr>
+                <td>
+                  <img src="/uploads/<%=product.images[0] %>" alt="Product Image" class="product-image">
+                  
+                </td>
+                <td class="product-name"><%= product.name %></td>
+                <td class="product-name"><%= product.company %></td>
+                <td class="product-name"><%= product.price %></td>
+                <td class="product-quantity"><%=product.quantity%></td>
+                <td class="product-total"><%= product.price * product.quantity %></td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+
+          <!-- <div class="order-status">Order Status: Shipped</div> -->
+
+          <div class="order-actions">
+            <button class="order-cancel">Cancel Order</button>
+          </div>
+          <div class="order-actions ">
+            <a class="btn  btn-primary" href="/orders">back to order list</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>

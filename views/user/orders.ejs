@@ -1,0 +1,126 @@
+<style>
+    .order-details-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+    
+    .order-details {
+      width: 100%;
+      max-width: 1200px;
+      margin: 2rem;
+    }
+    
+    .order-details-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    
+    .order-details-header h1 {
+      font-size: 2rem;
+    }
+    
+    .order-details-header button {
+      background-color: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      border-radius: 0.25rem;
+    }
+    
+    .order-details-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .order-details-table th,
+    .order-details-table td {
+      padding: 1rem;
+      text-align: center;
+      border: 1px solid #dee2e6;
+    }
+    
+    .order-details-table th {
+      background-color: #f8f9fa;
+      font-weight: bold;
+    }
+    
+    .order-details-table img {
+      max-width: 50px;
+    }
+    
+    .order-details-table .status {
+      color: #007bff;
+      font-weight: bold;
+    }
+    
+    .order-details-table .cancel-button {
+      background-color: #3a7f86;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border-radius: 0.25rem;
+    }
+    </style>
+    
+    <div class="order-details-container">
+      <div class="order-details">
+        <div class="order-details-header">
+          <h1>Order Details</h1>
+          <button style="background-color: rgb(142, 162, 211);"><a href="/index">  Continue Shopping</button></a>
+        </div>
+        <table class="order-details-table">
+          <thead>
+            <tr>
+              <th>order</th>
+              <th>order Date</th>
+              <!-- <th>Product</th> -->
+              <th>Address</th>
+              <th>pincode</th>
+              <th>Mobile</th>
+              <th>Quantity</th>
+              <th>Amount</th>
+              <th>Payment</th>
+              <th>Status</th>
+              <th>Options</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% orders.forEach((item,index)=>{ %>
+            <tr>
+              <td><%= index+1 %></td>
+              <td><%= new Date(item.createdAt) %></td>
+              <!-- <td>
+                <img src="https://via.placeholder.com/50x50.png" alt="Product Image">
+                
+              </td> -->
+              <td><%= item.deliveryDetails.firstName +" "+item.deliveryDetails.lastName %></td>
+              <td><%= item.deliveryDetails.pin %></td>
+              <td><%= item.deliveryDetails.number %></td>
+              <td><%= totalQuantity(item.products)%></td>
+              <td>₹ <%= item.totalAmount %></td>
+              <td><%= item.paymentMethod %></td>
+              <td class="status"><%= item.paymentstatus %></td>
+              <td><button class="cancel-button"><a href="/viewOrderProducts/<%= item._id %>"> view order </a></button></td>
+            </tr>
+            <% }) %>
+              
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <% function totalQuantity(products) { %>
+      <% let total = 0 %>
+      <% products.forEach(product => { %>
+        <% total += product.quantity %>
+      <% }) %>
+      <%= total %>
+    <% } %>
+
+    

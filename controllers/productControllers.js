@@ -211,7 +211,7 @@ exports.deleteProduct  = async (req,res)=>{
 exports.productView = async (req,res)=>{
     try{
     const singleProduct = await Product.findOne({_id:req.params.id})
-     res.render('user/product-view',{singleProduct})
+     res.render('user/product-view',{singleProduct,user:req.session.user})
     }catch(er){
         console.log(er);
     }

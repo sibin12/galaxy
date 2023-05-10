@@ -1,0 +1,100 @@
+
+	<style>
+		/* CSS styles for table */
+		table {
+		  font-family: Arial, sans-serif;
+		  border-collapse: collapse;
+		  width: 100%;
+		}
+
+		td, th {
+		  border: 1px solid #dddddd;
+		  text-align: left;
+		  padding: 8px;
+		}
+
+		/* tr:nth-child(even) {
+		  background-color: #dddddd;
+		} */
+
+		/* CSS styles for page header */
+		header {
+			background-color: #5078b6;
+			color: white;
+			padding: 10px;
+			text-align: center;
+			font-size: 24px;
+			margin-bottom: 20px;
+			margin-top: 20px;
+		}
+
+		/* CSS styles for page container */
+		.container {
+			width: 80%;
+			margin: 0 auto;
+		}
+	</style>
+
+<body>
+	<header>
+		<h1>Admin Orders View</h1>
+	</header>
+	<div class="container-fluid">
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order</th>
+                        <th>Order Date</th>
+                        <th>Customer Name</th>
+                        <th>Address</th>
+                        <th>Number</th>
+                        
+                        <th>Quantity</th>
+                        <th>Amount</th>
+                        <th>Payment</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+              <% orders.forEach((order,index)=>{ %>
+                <% order.products.forEach(product=>{ }) %>
+                    <tr>
+                        <td data-label="Order"><%= index+1 %></td>
+                        <td data-label="Order Date"><%=order.createdAt.toDateString() %></td>
+                        <td data-label="Customer Name"><%= order.deliveryDetails.firstName+" "+ order.deliveryDetails.lastName %></td>
+                        <td data-label="Address"><%= order.deliveryDetails.streetAddress %>, <%= order.deliveryDetails.pin %>, <%= order.deliveryDetails.town %>
+                        <%= order.deliveryDetails.state %></td>
+                        <td data-label="Number"><%= order.deliveryDetails.number %></td>
+                   
+                        <td data-label="Quantity"><%= order.products.reduce((total,product)=> total + product.quantity , 0) %></td>
+                        <td data-label="Amount"><%= order.totalAmount %></td>
+                        <td data-label="Payment"><%= order.paymentMethod  %></td>
+                        <td data-label="Status"><%= order.paymentstatus %></td>
+                       
+                        <form action="/admin/delivery-status/?orderId=<%= order._id %>&productId=<%= %>" method="post">
+                            <td>
+                                <select name="deliveryStatus">
+                                    <option selected><%=order.deliverystatus %></option>
+                                    <option>shipped</option>
+                                    <option>delivered</option>
+                                    <option>cancelled</option>
+                                </select>
+                            </td>
+                            <td>
+                                <button type="submit" class="btn" style="background-color: greenyellow;">Save</button>
+                            </td>
+                        </form>
+                        
+                    </tr>
+                    <% }) %>
+                   
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+</body>
+
